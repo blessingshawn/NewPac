@@ -1,0 +1,95 @@
+Dave's HTML5 Highscore Tutorial
+
+Due to so many people asking how it's done, I've decided to make a tutorial so you can make your own highscores in your HTML5 games!
+
+What you need:
+-GameMaker HTML5
+-This resources pack
+-Half decent GML knowledge
+
+What you might want:
+-A webhost that supports PHP and MySQL (these instructions assume a PHPMyAdmin interface)
+-Some PHP knowledge if you want to alter anything
+
+If you don't have your own web host, you may run into some problems. Notably, if your high score server and your game are located at different domains, the game wont work in IE or Opera.
+
+Steps 1 and 2 talk you through setting up your own server. If you don't have one, then let me know and I'll set you up on my database. Then skip to step 3.
+
+Step 1 - The database
+
+In the resource pack is a html5_db.sql file. Open PHPMyAdmin, and click "Import". Upload the file in the appropriate box and click "Go".
+
+This will set up the tables used for storing the highscores and the game info. You need to set up a game in the gamet01 table. To do this, choose the html5_db database from the list on the left (it may have done this automatically depending on your host and PHPMyAdmin version). Next, click gamet01 in the same area. 
+Next, click the "Insert" tab in the right hand panel. 
+
+In the namet01 box, put the name of your game, say, "Game 1".
+In the keyd01 box, put an encryption key. This needs to be exactly 15 characters long, letters only (preferably capitals), and non-repeating (you can't have the same letter occuring twice in the string).
+Leave the other boxes blank (they will auto-fill) and click "Go".
+
+That's the database set up. Next, time to work on interfacing with the database.
+
+Step 2 - PHP scripts
+
+In the resources pack are three PHP scripts, mysql.php (more on this later) getscores.php and submitscore.php. The latter two should be uploaded to your web server, and be sure to remember the URL as you'll need this later. mysql.php needs some changes before you upload it, as outlined below. Be sure all three scripts are in the same directory.
+
+The mysql.php file contains the details required to connect to your MySQL server. The required details can be provided by your host. The details you need are the MySQL server location (host), your user name, and your password.
+
+I haven't gone into details with the PHP scripts, but if you have any questions then let me know (unless your question is about the encryption, because even though I wrote it, I don't understand it, it was all done through trial and error).
+
+Step 3 - The game
+
+Included in the resources package is an example game, Davescores.gmz. Import this game into GMHTML5 by clicking Import GM81 on the welcome screen. Choose "*.gmz" from the dropdown box, and select the Davescores.gmz file.
+
+I've found when I import a game the extension plays up. To make sure it works, right click on it and delete it. Then right click, add extension, and add the Davejax.gex extension provided in the resource pack. It should work fine from there.
+
+The GM file has a fully working example, showing how to submit scores and retrieve highscores. By default, it's set to link to my database. You can update it to work with your database by changing the following settings:
+
+Scripts:
+
+getscores 
+-change URL on line 7 to the location of your getscores.php file.
+
+submitscores 
+-change key on line 3 to your encryption key
+-change URL on line 7 to the location of your submitscores.php file.
+
+Objects:
+
+viewscores
+-create event: Change first argument of getscores() function to the ID number of your game (The value of idd01 in your gamet01 table entry, probably 1 if it's your first entry)
+
+drawsubmit
+-press <enter>: Change first argument of submitscores() function to the ID number of your game
+
+
+And that's it! After changing those values, test out the game and see if it loads and submits to your database OK. It may have lots of 0's or say "undefined" until you get 10 entries in the database for your game. Make sure you always submit at least 10 scores before going public with the game.
+
+Step 4 - Cross domain requests
+
+It's important to note that some browsers do not allow cross-domain AJAX calls. What this means is that if you are in certain browsers, then it wont work unless the game is hosted on the same domain as the PHP scripts you are calling with AJAX. So if you had your game on your site, but it was sending the highscores to my database, most browsers would block this activity by default.
+
+ The reason is that if you log into a website, say facebook, then visit my malicious site, I could make an AJAX call that brings up facebook and posts a status. I wouldn't need to make my malicious site log in, because the browser already has a cookie that says I'm logged in, so facebook would let my (potentially) malicious script in to wreak havoc.
+
+ All browsers stop this activity by default, but you can send a header on the server that tells the browser to allow access. In the above example, the site sending the header would be facebook, which would say "let in requests from other domains". Obviously facebook doesn't allow this so they don't send that header, but for some sites this is needed, so they do send the header. It's possible to select which source domains are allowed to connect, too. The PHP scripts above both have this header being sent. If you will only ever have your games on the same site as the PHP files, then it may be a good idea to remove the "header(...)" line from the PHP scripts.
+
+ Anyway, these headers only work on certain browsers. In my experience, Chrome, Safari, and Firefox do work (if the header is inluded in the PHP file, all major browsers block it without the header), Opera and IE do not work with or without the header. 
+
+ So if you want to avoid problems, host your PHP scripts on the same site as the game will be played on.
+
+ It's also possible to use a PHP proxy script, that tricks the browser into thinking the request came from the same domain, but that's outside the scope of this tutorial.
+ 
+ PLEASE NOTE: http://www.example.com and http://example.com are *different* URLs. Always be consistent in which one you use (I suggest always starting with www).
+ 
+ My webhost has a setting it calls hard canonical, which means that if someone tries to go to http://example.com it forces the site to switch to http://www.example.com. Your host might have it too. If it does, I'd consider switching it on.
+ 
+ Final words:
+ 
+ Hopefully this tutorial has been enough for you to set up highscores for your game. If you have any questions, let me know!
+ 
+ Thanks for reading! 
+ 
+ -Dave
+ 
+ GMC: Dangerous_Dave
+ Twitter: @perilouspete
+ Web: perilouspete.com

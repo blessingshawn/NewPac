@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="MyPacTiles" tilewidth="32" tileheight="32">
+  <image source="../Gfx/MyPacTiles.png" width="64" height="384"/>
+  <tile id="11">
+   <properties>
+    <property name="eatable" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background" width="40" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzVVgEKwyAMjMxSpCtFxv7/1aXMg5skCk5YJxwloYmX9IwNInJTLBfDqkiKTREV9wkIJeeMXLFw2yk3uCfD1wLePxR5MNbafyd+VwTzYw3WNbVq9LT7kLeGpPNtrNwr8Xs6vPEUw2ZfD+LEWbnr2JPbUXpwcs7kh54W8sNmX6B4LNip2FZcnZv3ZD71GtGIt0a0XS+uH1rYqDc9/aFea35ZZ9nTH/bMFR/4Z+hPnJ6M6o/nH/fA04ilo9759eJaufn8/sv8a9XYA+ssDcZa+2P+zbp/+X77FlE+59+v/1e88/8C48cVWw==
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="40" height="15" visible="0">
+  <object name="bGhostStart" x="544" y="224" width="32" height="32"/>
+  <object name="oGhostStart" x="640" y="224" width="32" height="32"/>
+  <object name="pGhostStart" x="608" y="224" width="32" height="32"/>
+  <object name="rGhostStart" x="704" y="224" width="32" height="32"/>
+  <object name="pacStart" x="608" y="288" width="32" height="32"/>
+ </objectgroup>
+</map>
